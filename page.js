@@ -5,7 +5,7 @@ exports.index = function(req, res) {
        
             var mongodb = require('mongodb');
             var mc = mongodb.MongoClient;
-            mc.connect('mongodb://zitim:999TIMTI@ds115738.mlab.com:15738/messageboard', (err,db) => {
+            mc.connect('mongodb://:@ds115738.mlab.com:15738/messageboard', (err,db) => {
             var collection = db.collection('test2');
     //查詢
             collection.find().toArray((err, result) => {
@@ -74,7 +74,7 @@ exports.post = function(req, res) {
 var mongodb = require('mongodb');
 var mc = mongodb.MongoClient;
 
-mc.connect('mongodb://zitim:999TIMTI@ds115738.mlab.com:15738/messageboard', (err,db) => {
+mc.connect('mongodb://:@ds115738.mlab.com:15738/messageboard', (err,db) => {
     var collection = db.collection('test2');
     var Today = new Date();
     var str=(Today.getFullYear()+ " 年 " + (Today.getMonth()+1) + " 月 " + Today.getDate() + " 日");
