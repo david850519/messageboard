@@ -1,0 +1,63 @@
+<h1>留言板</h1> 
+<h1></h1>
+<!-- <img src="images/banner141229.jpg" alt=""> -->
+<center>
+<form action="/post" method='post'>
+  <span>留言</span>
+  <input type="text" name="password">
+  <input type="submit" vlaue="送出">
+
+<!--   <h1>取得資料</h1>
+  <input type="button" id="getData" value="留言板">
+  <ul id="list"></ul>  -->
+</form>
+<table border="1">
+　
+<% for(var i=0; i< listdata.length; i++) {%> 
+  <tr>
+    <td><%- JSON.stringify(listdata[i]._id) %></td>
+    <td><input type="button" id="delete" value="刪除">
+        <hidden></hidden></td>
+  </tr>
+<% } %>
+  
+</table>
+
+<!--<h1>jQuery ajax送出</h1>
+<input type="text" id="password">
+<input type="button" id="send" value="送出">
+-->
+
+
+
+<script>
+  var ObjectId = require('mongodb').ObjectID;
+
+  jQuery(document).ready(function($) {
+    $('#send').on('click', function(event) {
+      event.preventDefault();
+      var str = $('#password').val();
+      console.log(str);
+      $.post('/delete', {'password': str}).success(function(data){
+        console.log(data);
+        if(data=='success'){
+        alert('刪除成功')
+        }else{
+          alert('刪除失敗')
+        }
+      });
+    });
+    // $('#getData').on('click', function(event) {
+    //   event.preventDefault();
+    //   $.get('/getAjax').success(function(data){
+    //     // console.log(data)
+    //     $('#list').children().remove()
+    //     for(i=0;data.length>i;i++){
+    //       $('#list').append('<li>姓名：'+data[i].name+' 電話：'+data[i].tel);
+    //     }
+    //   });
+    // });
+  });
+    
+</script>
+</center>
