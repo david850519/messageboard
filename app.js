@@ -1,3 +1,4 @@
+// node 預設模組
 var path = require('path');
 
 // NPM 模組
@@ -35,4 +36,5 @@ app.get('/getAjax',page.getAjax);
 app.get('/getJson', page.getJson);
 
 //偵測3000 port
-app.listen(3000);
+app.listen(3001);
+

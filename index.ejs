@@ -1,66 +1,59 @@
-<h1>留言板</h1> 
-<h1></h1>
+
 <!-- <img src="images/banner141229.jpg" alt=""> -->
-<center>
+
+<h1>留言板</h1>
 <form action="/post" method='post'>
   <span>留言</span>
   <input type="text" name="password">
   <input type="submit" vlaue="送出">
-
-<!--   <h1>取得資料</h1>
-  <input type="button" id="getData" value="留言板">
-  <ul id="list"></ul>  -->
 </form>
-<!-- <h2><%- JSON.stringify(listdata[3]) %><h2> -->
-<!-- <h1>JSON.stringify(listdata.length)</h1> -->
-<% for(var i=0; i< listdata.length; i++) {%> 
-  <li><%- JSON.stringify(listdata[i].message) %></li>
-<% } %>
 
-<!--<h1>jQuery ajax送出</h1>
+<table border="1">
+　
+<!-- <% for(var i=0; i< listdata.length; i++) {%>  -->
+  <tr>
+    <td><%- JSON.stringify(listdata[i].message) %></td>
+    <td><input type="button" id="delete" value="刪除">
+        <input type="hidden" id="num" value=<%- JSON.stringify(listdata[i]._id) %>></td>
+  </tr>
+<!-- <% } %> -->
+  
+</table>
+
+<!-- <h1>jQuery ajax送出</h1>
 <input type="text" id="password">
 <input type="button" id="send" value="送出">
--->
 
+<h1>取得資料</h1>
+<input type="button" id="getData" value="取得電話資料">
+<ul id="list"></ul> -->
 
 
 <script>
-
-  // jQuery(document).ready(function($) {
-  //   $('#send').on('click', function(event) {
-  //     event.preventDefault();
-  //     var str = $('#password').val();
-  //     console.log(str);
-  //     });
-  //     });
-  //   }
-  // }
-  //    $.post('/postAjax', {'password': str}).success(function(data){
-  //       console.log(data);
-  //       if(data=='success'){
-  //       alert('密碼輸入成功')
-  //       }else{
-  //         alert('密碼輸入錯誤')
-  //       }
-  //     });
-  //   };
-// var data = <%- JSON.stringify(listdata) %>;
-// console.log(data);
-
+  jQuery(document).ready(function($) {
+    $('#delete').on('click', function(event) {
+      event.preventDefault();
+      var str = $('#num').val();
+      console.log(str);
+      $.post('/delete', {'id': str}).success(function(data){
+        console.log(data);
+        if(data=='success'){
+          window.location.reload(" page.index ")
+          alert('刪除成功')
+        }else{
+          alert('刪除失敗')
+        }
+      });
+    });
     // $('#getData').on('click', function(event) {
     //   event.preventDefault();
-    //   $.get('/index').success(function(data){
+    //   $.get('/getAjax').success(function(data){
     //     // console.log(data)
     //     $('#list').children().remove()
-        
-    //     //console.log(data);
-    //     // for(i=0;data.length>i;i++){
-    //     //   var mess[]=data;
-    //     //   console.log(mess[i]+"<br>");
-    //     //   // $('#list').append('<li>主旨：'+data[i].title+' 訊息：'+data[i].message);
-    //     // }
+    //     for(i=0;data.length>i;i++){
+    //       $('#list').append('<li>姓名：'+data[i].name+' 電話：'+data[i].tel);
+    //     }
     //   });
     // });
-    
+  });
 </script>
-</center>
