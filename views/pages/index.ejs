@@ -1,47 +1,45 @@
-<h1>留言板</h1> 
-<h1></h1>
+
 <!-- <img src="images/banner141229.jpg" alt=""> -->
-<center>
+
+<h1>留言板</h1>
 <form action="/post" method='post'>
   <span>留言</span>
   <input type="text" name="password">
   <input type="submit" vlaue="送出">
-
-<!--   <h1>取得資料</h1>
-  <input type="button" id="getData" value="留言板">
-  <ul id="list"></ul>  -->
 </form>
+
 <table border="1">
 　
-<% for(var i=0; i< listdata.length; i++) {%> 
+<!-- <% for(var i=0; i< listdata.length; i++) {%>  -->
   <tr>
-    <td><%- JSON.stringify(listdata[i]._id) %></td>
+    <td><%- JSON.stringify(listdata[i].message) %></td>
     <td><input type="button" id="delete" value="刪除">
-        <hidden></hidden></td>
+        <input type="hidden" id="num" value=<%- JSON.stringify(listdata[i]._id) %>></td>
   </tr>
-<% } %>
+<!-- <% } %> -->
   
 </table>
 
-<!--<h1>jQuery ajax送出</h1>
+<!-- <h1>jQuery ajax送出</h1>
 <input type="text" id="password">
 <input type="button" id="send" value="送出">
--->
 
+<h1>取得資料</h1>
+<input type="button" id="getData" value="取得電話資料">
+<ul id="list"></ul> -->
 
 
 <script>
-  var ObjectId = require('mongodb').ObjectID;
-
   jQuery(document).ready(function($) {
-    $('#send').on('click', function(event) {
+    $('#delete').on('click', function(event) {
       event.preventDefault();
-      var str = $('#password').val();
+      var str = $('#num').val();
       console.log(str);
-      $.post('/delete', {'password': str}).success(function(data){
+      $.post('/delete', {'id': str}).success(function(data){
         console.log(data);
         if(data=='success'){
-        alert('刪除成功')
+          window.location.reload(" page.index ")
+          alert('刪除成功')
         }else{
           alert('刪除失敗')
         }
@@ -58,6 +56,4 @@
     //   });
     // });
   });
-    
 </script>
-</center>
