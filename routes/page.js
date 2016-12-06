@@ -54,7 +54,7 @@ exports.post = function(req, res) {
         //結束
         db.close()
     });
-    //res.send(req.body.password);
+    res.render('pages/success');
 };
 
 //刪除
