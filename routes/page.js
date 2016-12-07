@@ -5,7 +5,7 @@ var mc = mongodb.MongoClient;
 
 //列出資料
 exports.index = function(req, res) {
-    mc.connect('mongodb://:@ds115738.mlab.com:15738/messageboard', (err,db) => {
+    mc.connect('mongodb://process.env.db_user:process.env.pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
         var collection = db.collection('test2');
 
         collection.find().toArray((err, result) => {
@@ -32,12 +32,11 @@ exports.index = function(req, res) {
 exports.post = function(req, res) {
     //console.log(req.body);
     //res.render('pages/success');
-
-    mc.connect('mongodb://:@ds115738.mlab.com:15738/messageboard', (err,db) => {
+    mc.connect('mongodb://process.env.db_user:process.env.pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
         var collection = db.collection('test2');
+
         var Today = new Date();
         var str=(Today.getFullYear()+ " 年 " + (Today.getMonth()+1) + " 月 " + Today.getDate() + " 日");
-        console.log(str);
     //新增資料
         var data = {
             title: str,
@@ -50,8 +49,6 @@ exports.post = function(req, res) {
                 console.log(err);
             }
         });
-
-        //結束
         db.close()
     });
     res.render('pages/success');
@@ -60,7 +57,7 @@ exports.post = function(req, res) {
 //刪除
 exports.delete = function(req, res) {
     
-    mc.connect('mongodb://:@ds115738.mlab.com:15738/messageboard', (err,db) => {
+    mc.connect('mongodb://process.env.db_user:process.env.pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
     var collection = db.collection('test2');
 
     console.log(req.body.id);
@@ -72,7 +69,6 @@ exports.delete = function(req, res) {
             res.send('error');
         }
     });
-
     db.close()
     });
 
