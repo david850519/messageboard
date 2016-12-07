@@ -5,7 +5,7 @@ var mc = mongodb.MongoClient;
 
 //列出資料
 exports.index = function(req, res) {
-    mc.connect('mongodb://process.env.db_user:process.env.pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
+    mc.connect('mongodb://process.env.db_user:process.env.db_pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
         var collection = db.collection('test2');
 
         collection.find().toArray((err, result) => {
