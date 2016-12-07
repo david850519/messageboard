@@ -32,7 +32,7 @@ exports.index = function(req, res) {
 exports.post = function(req, res) {
     //console.log(req.body);
     //res.render('pages/success');
-    mc.connect('mongodb://process.env.db_user:process.env.pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
+    mc.connect('mongodb://process.env.db_user:process.env.db_pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
         var collection = db.collection('test2');
 
         var Today = new Date();
@@ -48,8 +48,8 @@ exports.post = function(req, res) {
             }else{
                 console.log(err);
             }
-        });
         db.close()
+        });
     });
     res.render('pages/success');
 };
@@ -57,19 +57,42 @@ exports.post = function(req, res) {
 //刪除
 exports.delete = function(req, res) {
     
-    mc.connect('mongodb://process.env.db_user:process.env.pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
-    var collection = db.collection('test2');
+    mc.connect('mongodb://process.env.db_user:process.env.db_pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
+        var collection = db.collection('test2');
 
-    console.log(req.body.id);
-    var condition = {"_id": ObjectId(req.body.id)};
-    collection.remove(condition, (err, result) => {
-        if(!err){
-            res.send('success');
-        }else{
-            res.send('error');
-        }
+        console.log(req.body.id);
+        var condition = {"_id": ObjectId(req.body.id)};
+        collection.remove(condition, (err, result) => {
+            if(!err){
+                res.send('success');
+            }else{
+                res.send('error');
+            }
+        db.close()
+        });
     });
-    db.close()
+
+}
+
+//編輯
+exports.edit = function(req, res) {
+    
+    mc.connect('mongodb://process.env.db_user:process.env.db_pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
+        var collection = db.collection('test2');
+
+        //console.log(req.body.old_mess);
+        //console.log(req.body.new_mess);
+        var condition = {"message": req.body.old_mess};
+        var new_str = {$set: {"message": req.body.new_mess}};
+        collection.update(condition, new_str, (err, result) => {
+            if(!err){
+                //console.log(result);
+                res.send('success');
+            }else{
+                res.send('error');
+            }
+        db.close();
+        });
     });
 
 }
