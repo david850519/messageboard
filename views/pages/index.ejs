@@ -8,17 +8,21 @@
   <input type="submit" vlaue="送出">
 </form>
 
-<table border="1">
+<table border="1" >
 　
 
 <% for(var i=0; i< listdata.length; i++) {%>  
   <tr>
-    <td><%- JSON.stringify(listdata[i].message) %></td>
+    <td id=mess<%- i %> ><%- JSON.stringify(listdata[i].message) %></td>
+    <td><input type="button" id=edit<%- i %> value="編輯">
+        <input type="hidden" id=old_mess<%- i %> value=<%- JSON.stringify(listdata[i].message) %>>
+        <input type="hidden" id="num" value= <%- listdata.length %> ></td>
     <td><input type="button" id=delete<%- i %> value="刪除">
         <input type="hidden" id=id<%- i %> value=<%- JSON.stringify(listdata[i]._id) %>>
         <input type="hidden" id="num" value= <%- listdata.length %> ></td>
   </tr>
 <% } %>
+  
 
   
 </table>
@@ -34,32 +38,135 @@
 <script>
   jQuery(document).ready(function($) {
     var num = $('#num').val();
+    
     for (var i = 0; i < num; i++) {
       var del='#delete'+i;
-      
-      //console.log(del);
+      var edit='#edit'+i;
       //console.log(id);
       (function() {
         $(del).click(function(event) {
           event.preventDefault();
           var btn_id=event.target.id;
           //console.log(del);
-            btn_id=btn_id.slice(6,7);
+          btn_id=btn_id.slice(6,7);
           //console.log(btn_id);
           var id_val = $('#id'+btn_id).val();
-          //console.log(id_val);
+          console.log(id_val);
           $.post('/delete', {'id': id_val}).success(function(data){
               console.log(data);
               if(data=='success'){
                 window.location.reload(" page.index ");
-                //alert('刪除成功');
+                alert('刪除成功');
               }else{
                 alert('刪除失敗');
               }
           });
         });
       })(del);
-    }
+
+      (function() {
+        $(edit).click(function(event) {
+          event.preventDefault();
+          var btn_id=event.target.id;
+          btn_id=btn_id.slice(4,5);
+          //console.log(btn_id);
+          var id_val = $('#id'+btn_id).val();
+          //console.log(id_val);
+
+          // 保存當前的td節點   
+          var mess = $( '#mess'+btn_id );  
+
+          var old_mess= $('#old_mess'+btn_id).val();
+          //console.log(old_mess);
+          //console.log(mess);
+          // 1.取出當前mess中的文本內容保存起來   
+          var text = mess.text();  
+          // 2.清空mess中的文本內容   
+            // 第一種   
+          mess.html("");  
+            // 第二種   
+          // mess.empty();   
+          // 3.建立一個文本框也就是input的元素節點(沒有尖括號時候是找,有尖括號時是創建)   
+          var input = $("<input>" );  
+        
+          // 4.設置文本框的值是保存起來的文本內容   
+          input.attr("value" , text);  
+           // 4.5讓文本框能夠響應鍵盤按下的事件   
+          input.blur( function (event) {  
+               var cfm = confirm("是否確認修改" );  
+                
+              if (cfm){  
+               // 0獲取當前用戶點擊空白處時   
+              // 解決不同的瀏覽器獲取時間的對象的差異   
+              // var myEvent = event || window.event;   
+              // var kcode = myEvent.keyCode;   
+               // 1判斷是否是回車按下   
+              // if (kcode == 13)   
+              // {   
+              // var inputnode = $(this);  
+        
+              // 2.獲取當前文本框的內容   
+              // var inputtext = inputnode.val();   
+                  var inputtext = input.val();  
+                  console.log(inputtext);
+               // 3.清空mess裡面的內容   
+              // var messNode = inputnode.parent();   
+                  var messNode = input.parent(); // 拿到mess節點   
+              // 4.將保存的文本框的內容填充到mess中   
+                  messNode.html(inputtext);  
+               // 5.讓mess重新擁有點擊事件   
+                  //messNode.click (tdclick);  
+               // }   
+                $.post('/edit', {'old_mess': old_mess , 'new_mess': inputtext}).success(function(data){
+                    console.log(data);
+                    if(data=='success'){
+                      window.location.reload(" page.index ");
+                      alert('編輯成功');
+                    }else{
+                      alert('刪除失敗');
+                    }
+                });
+              }  
+          });  
+      //     input.keyup(function(event) {   
+      //         //0獲取當前用戶按下的鍵值   
+      //         //解決不同的瀏覽器獲取時間的對象的差異   
+      //         var myEvent = event || window.event ;   
+      //         var kcode = myEvent.keyCode;   
+      //          //1判斷是否是回車按下   
+      //         if (kcode == 13)   
+      //         {   
+      //         //var inputnode = $(this);   
+      //   
+      //         //2.獲取當前文本框的內容   
+      //         //var inputtext = inputnode.val();   
+      //             var inputtext = input.val();   
+      //         //3.清空td裡面的內容   
+      //         //var tdNode = inputnode.parent();   
+      //             var tdNode = input.parent(); //拿到td節點   
+      //         //4.將保存的文本框的內容填充到td中   
+      //             tdNode.html(inputtext) ;   
+      //         //5.讓td重新擁有點擊事件   
+      //             tdNode.click(tdclick);   
+      //         }   
+      //   
+      //     });  
+        
+          // 5.把文本框加到td中去   
+          mess.append(input); // 也可以用input.appendTo(td);  
+        
+          // 5.5讓文本狂中的文字被高亮選中   
+          // 需要將jquery的對象轉換為dom對象   
+          var inputdom = input.get(0);  
+          inputdom.select();  
+          // // 6.清除td上註冊的點擊事件   
+          // mess.unbind("click" ); 
+          
+        });
+      })(edit);
+  
+  }  
+    
     
     // $('#getData').on('click', function(event) {
     //   event.preventDefault();
