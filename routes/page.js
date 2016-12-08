@@ -5,7 +5,7 @@ var mc = mongodb.MongoClient;
 
 //列出資料
 exports.index = function(req, res) {
-    mc.connect('process.env.mongodb_URL', (err,db) => {
+    mc.connect(process.env.mongodb_URL, (err,db) => {
         var collection = db.collection('test2');
 
         collection.find().toArray((err, result) => {
@@ -32,7 +32,7 @@ exports.index = function(req, res) {
 exports.post = function(req, res) {
     //console.log(req.body);
     //res.render('pages/success');
-    mc.connect('process.env.mongodb_URL', (err,db) => {
+    mc.connect(process.env.mongodb_URL, (err,db) => {
         var collection = db.collection('test2');
 
         var Today = new Date();
@@ -59,7 +59,7 @@ exports.post = function(req, res) {
 //刪除
 exports.delete = function(req, res) {
     
-    mc.connect('process.env.mongodb_URL', (err,db) => {
+    mc.connect(process.env.mongodb_URL, (err,db) => {
         var collection = db.collection('test2');
 
         console.log(req.body.id);
@@ -79,7 +79,7 @@ exports.delete = function(req, res) {
 //編輯
 exports.edit = function(req, res) {
     
-    mc.connect('process.env.mongodb_URL', (err,db) => {
+    mc.connect(process.env.mongodb_URL, (err,db) => {
         var collection = db.collection('test2');
 
         //console.log(req.body.old_mess);
