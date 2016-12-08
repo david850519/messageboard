@@ -3,8 +3,7 @@
 <h1>留言板</h1>
 <form action="/post" method='post'>
   <span>留言</span><br/>
-  <textarea rows="4" cols="50" name="password"></textarea><br/>
-  <!-- <input type="text" > -->
+  <textarea rows="4" cols="50" name="text"></textarea><br/>
   <input type="submit" vlaue="送出">
 </form>
 
@@ -56,9 +55,9 @@
               console.log(data);
               if(data=='success'){
                 window.location.reload(" page.index ");
-                alert('刪除成功');
+                //alert('刪除成功');
               }else{
-                alert('刪除失敗');
+                //alert('刪除失敗');
               }
           });
         });
@@ -121,9 +120,9 @@
                     console.log(data);
                     if(data=='success'){
                       window.location.reload(" page.index ");
-                      alert('編輯成功');
+                      //alert('編輯成功');
                     }else{
-                      alert('刪除失敗');
+                      //alert('刪除失敗');
                     }
                 });
               }  
