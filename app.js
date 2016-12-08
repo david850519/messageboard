@@ -11,6 +11,7 @@ var favicon = require('serve-favicon');
 // router設定
 var page = require('./routes/page');
 
+app.set('port', (process.env.PORT || 5000));
 // parse application/x-www-form-urlencoded 
 // 讓回傳的值可以解析 json與 urlencoded
 app.use(bodyParser.json()); 
@@ -37,5 +38,9 @@ app.get('/getAjax',page.getAjax);
 app.get('/getJson', page.getJson);
 
 //偵測3000 port
-app.listen(3001);
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
+//app.listen(3001);
 
