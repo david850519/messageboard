@@ -31,6 +31,7 @@ app.use(favicon(__dirname + '/public/favicon.ico'));
 app.get('/', page.index);
 app.post('/post',page.post);
 app.post('/delete',page.delete);
+app.post('/edit',page.edit);
 app.post('/postAjax',page.postAjax);
 app.get('/getAjax',page.getAjax);
 app.get('/getJson', page.getJson);
