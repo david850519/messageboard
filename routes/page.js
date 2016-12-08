@@ -2,8 +2,8 @@
 var mongodb = require('mongodb');
 var ObjectId = require('mongodb').ObjectID;
 var mc = mongodb.MongoClient;
-var db_user = process.env.db_user;
-var db_pwd = process.env.db_pwd;
+var db_user = zitim;
+var db_pwd = 999TIMTI;
 //列出資料
 exports.index = function(req, res) {
     mc.connect('mongodb://db_user:db_pwd@ds115738.mlab.com:15738/messageboard', (err,db) => {
