@@ -1,12 +1,12 @@
 {
-  "name": "gonsakon",
+  "name": "zitim",
   "version": "1.0.0",
   "description": "express get and post router sample",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "gonsakon",
+  "author": "zitim",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.14.0",
