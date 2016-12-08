@@ -38,7 +38,7 @@ exports.post = function(req, res) {
         var Today = new Date();
         var str=(Today.getFullYear()+ " 年 " + (Today.getMonth()+1) + " 月 " + Today.getDate() + " 日");
     //新增資料
-        var text = req.body.text.replace( /[\r\n\s]/g , '' );
+        var text = req.body.text.replace( /[\r\n]/g , '' );
         //console.log(text);
         var data = {
             title: str,
