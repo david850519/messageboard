@@ -5,20 +5,24 @@ var mc = mongodb.MongoClient;
 
 //列出資料
 exports.index = function(req, res) {
-    mc.connect(process.env.mongodb_URL, (err,db) => {
+    mc.connect('mongodb://zitim:999TIMTI@ds115738.mlab.com:15738/messageboard', (err,db) => {
         var collection = db.collection('test2');
 
         collection.find().toArray((err, result) => {
+            result=JSON.stringify(result);
+             result=result.replace(/&/g, "&amp;");
+             //result=result.replace(/"/g, "&quot;");
+             result=result.replace(/'/g, "'");
+             result=result.replace(/</g, "&lt;");
+             result=result.replace(/>/g, "&gt;");
+            result=JSON.parse(result);
+            console.log(result);
             if(!err){
+                
                 res.render('pages/index', {
                          listdata: result
                 });
-                // for (var i = 0; i < result.length ; i++) {
-                //     //data[i] = result[i];
-                //     res.render('pages/index', {
-                //         listdata: data
-                //     });
-                // }
+              
             }else{
                 console.log(err);
             }
@@ -32,14 +36,21 @@ exports.index = function(req, res) {
 exports.post = function(req, res) {
     //console.log(req.body);
     //res.render('pages/success');
-    mc.connect(process.env.mongodb_URL, (err,db) => {
+    mc.connect('mongodb://zitim:999TIMTI@ds115738.mlab.com:15738/messageboard', (err,db) => {
         var collection = db.collection('test2');
 
         var Today = new Date();
         var str=(Today.getFullYear()+ " 年 " + (Today.getMonth()+1) + " 月 " + Today.getDate() + " 日");
     //新增資料
         var text = req.body.text.replace( /[\r\n\"]/g , '' );
-        //console.log(text);
+        /*function escapeHtml(text) {
+             return text
+            .replace(/&/g, "&amp;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "'")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+};*/
         var data = {
             title: str,
             message: text,
@@ -59,7 +70,7 @@ exports.post = function(req, res) {
 //刪除
 exports.delete = function(req, res) {
     
-    mc.connect(process.env.mongodb_URL, (err,db) => {
+    mc.connect('mongodb://zitim:999TIMTI@ds115738.mlab.com:15738/messageboard', (err,db) => {
         var collection = db.collection('test2');
 
         console.log(req.body.id);
@@ -79,7 +90,7 @@ exports.delete = function(req, res) {
 //編輯
 exports.edit = function(req, res) {
     
-    mc.connect(process.env.mongodb_URL, (err,db) => {
+    mc.connect('mongodb://zitim:999TIMTI@ds115738.mlab.com:15738/messageboard', (err,db) => {
         var collection = db.collection('test2');
         
         req.body.new_mess = req.body.new_mess.replace( /[\r\n\"]/g , '' );
@@ -133,4 +144,3 @@ exports.getJson = function(req, res){
 
     res.json(tours);
 };
-
