@@ -38,7 +38,7 @@ exports.post = function(req, res) {
         var Today = new Date();
         var str=(Today.getFullYear()+ " 年 " + (Today.getMonth()+1) + " 月 " + Today.getDate() + " 日");
     //新增資料
-        var text = req.body.text.replace( /[\r\n]/g , '' );
+        var text = req.body.text.replace( /[\r\n\"]/g , '' );
         //console.log(text);
         var data = {
             title: str,
@@ -81,7 +81,8 @@ exports.edit = function(req, res) {
     
     mc.connect(process.env.mongodb_URL, (err,db) => {
         var collection = db.collection('test2');
-
+        
+        req.body.new_mess = req.body.new_mess.replace( /[\r\n\"]/g , '' );
         //console.log(req.body.old_mess);
         //console.log(req.body.new_mess);
         var condition = {"message": req.body.old_mess};
